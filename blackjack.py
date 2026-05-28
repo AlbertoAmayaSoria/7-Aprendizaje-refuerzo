@@ -34,9 +34,18 @@ class BlackJack(MDPsim):
     def _calcular_mano(self, cartas):
         suma = sum(cartas)
         usable = False
-        if 1 in cartas and suma + 10 <= 21:
+        ases = cartas.count(1)
+
+        #intentamos contar as como 11
+        if ases > 0 and suma + 10 <= 21:
             suma += 10
             usable = True
+
+        #si se pasa lo contamos como 1
+        while suma > 21 and usable:
+            suma -= 10
+            usable = False
+
         return suma, usable
 
     def estado_inicial(self):
@@ -83,7 +92,7 @@ class BlackJack(MDPsim):
 
 
     def es_terminal(self, s):
-        return s[0] > 21 or s[0] == 22
+        return s[0] > 21 #or s[0] == 22
         
 
 
